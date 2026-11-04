@@ -21,7 +21,12 @@ def get_doc(source):
 def make_html(source, settings):
     doc=get_doc(source); title=settings.get('title') or doc.title or 'Chemistry Notes'
     if title == 'Untitled': title='Chemistry Notes'
-    theme=settings.get('theme','notes'); columns=settings.get('columns') == '2'; size=max(9.0,min(12.0,float(settings.get('fontSize',10.5))))
+    theme=settings.get('theme','notes'); columns=settings.get('columns') == '2'
+    try:
+        size=float(settings.get('fontSize',10.5))
+    except Exception:
+        size=10.5
+    size=max(5.0,min(14.0,size))
     compact = bool(settings.get('compact')) or theme == 'cheat'
     headings=[b for b in doc.blocks if b.type=='heading']
     parts=[]; question_no=0; answers=[]
@@ -67,10 +72,22 @@ def make_html(source, settings):
     fonts=''.join(f'''@font-face {{font-family: Noto; src: url("{(ROOT/'fonts'/('NotoSans-'+f+'.ttf')).as_uri()}"); font-weight:{w};}}''' for f,w in [('Regular',400),('Bold',700)])
     fonts+=f'''@font-face {{font-family: Devanagari; src: url("{(ROOT/'fonts'/'NotoSansDevanagari-Regular.ttf').as_uri()}");}} @font-face {{font-family: Devanagari;src:url("{(ROOT/'fonts'/'NotoSansDevanagari-Bold.ttf').as_uri()}");font-weight:700;}}'''
     from .mathmini import MATH_CSS
-    theme_css = {'question': '.question{border-bottom:0.5pt solid #dfe7e5;padding:5pt 0 9pt}.doc-title{color:#243044}', 'worksheet': '.question{border-bottom:1pt dashed #ccd8d3;padding-bottom:14pt}.doc-title{color:#285b50}', 'cheat': 'body{font-size:9.5pt}.block{margin-bottom:3pt}h1{font-size:14pt}h2{font-size:11pt}'}.get(theme,'')
+    # theme css: cheat compact needs extra density but must respect user font-size
+    theme_css = {
+        'question': '.question{border-bottom:0.5pt solid #dfe7e5;padding:5pt 0 9pt}.doc-title{color:#243044}',
+        'worksheet': '.question{border-bottom:1pt dashed #ccd8d3;padding-bottom:14pt}.doc-title{color:#285b50}',
+        'cheat': '.block{margin-bottom:3pt}h1{font-size:13pt}h2{font-size:10.5pt} .doc-title{font-size:15pt}'
+    }.get(theme,'')
+    # extra tight spacing when font is very small (5-7pt)
+    if size <= 7:
+        theme_css += ' .block{margin-bottom:2pt} h1{margin:6pt 0 3pt} h2{margin:5pt 0 2pt} p,.bullet{line-height:1.25}'
     css=f'''{fonts} {MATH_CSS} {theme_css}
-    @page {{size:A4; margin:2cm; @top-left {{ content: "{safe(title).replace(chr(34),'') }"; font: 8pt Noto,Devanagari,sans-serif; color:#718096; }} @top-right {{content:"{safe(settings.get('institute','')).replace(chr(34),'')}"; font:8pt Noto,Devanagari,sans-serif; color:#718096;}} @bottom-center {{content: "Page " counter(page) " of " counter(pages); font:8pt Noto,sans-serif;color:#718096;}} }}
-    * {{box-sizing:border-box}} body {{font-family:Noto,Devanagari,sans-serif;font-size:{size}pt;line-height:1.4;color:#24344a;font-variant-ligatures:none; overflow-wrap:anywhere;}} h1,h2,p {{margin:0}} .doc-title {{font-size:20pt;color:#15365c;margin:0 0 4pt;font-weight:700}} .doc-sub {{color:#698092;margin-bottom:16pt;font-size:9pt}} .block {{margin:0 0 {5 if compact else 8}pt}} .keep {{break-inside:avoid;}} .with-next {{break-after:avoid}} .force,.pagebreak {{break-before:page}} .pagebreak {{height:0}} h1 {{font-size:16pt;color:#173b68; margin:13pt 0 5pt;bookmark-level:1;break-after:avoid}} h2 {{font-size:12pt;color:#19806d; margin:9pt 0 4pt;bookmark-level:none;break-after:avoid}} p, .bullet {{orphans:3;widows:3}} .bullet {{display:flex;gap:7pt}} .mark {{color:#1a8b7a}} .level2 {{margin-left:17pt}} strong,b {{font-weight:700}} sup,sub {{font-size:70%;line-height:0}} .box-inner {{background:#edf7f5;border-left:3pt solid #28a58e;padding:9pt 11pt;border-radius:3pt;white-space:normal}} .example .box-inner {{background:#fff7e7;border-color:#e9a537}} .box-title {{font-size:9pt;color:#187963;font-weight:700;margin-bottom:4pt;text-transform:uppercase;letter-spacing:.04em}} .example .box-title {{color:#a56815}} table {{border-collapse:collapse;width:100%;font-size:9.5pt}} thead {{display:table-header-group}} tr {{break-inside:avoid}} th,td {{border:0.5pt solid #d4e0e5;padding:5pt 6pt;text-align:left;vertical-align:top}} th {{background:#e7f1f2;color:#204c55}} .qtitle {{position:relative;padding-right:40pt}} .marks {{float:right;font-size:8pt;color:#64768a}} .options {{display:block;margin:6pt 0 0 16pt}} .options > div {{display:inline-block;width:49%;vertical-align:top;padding:2pt}} .options.single > div {{display:block;width:100%}} .answer {{color:#19806d;margin-top:5pt}} figure {{margin:0;text-align:center}} img {{max-width:100%;max-height:19cm}} figcaption {{font-size:9pt;color:#708090}} .missing {{color:#b45039}} .toc-list {{padding-left:20pt}} .toc-list a {{color:#244e70;text-decoration:none}} .toc-list a::after {{content:leader('.') target-counter(attr(href), page)}} .content {{ {'column-count:2;column-gap:18pt;' if columns else ''} }}
+    @page {{size:A4; margin:{'1.2cm' if size<=7 else '2cm'}; @top-left {{ content: "{safe(title).replace(chr(34),'') }"; font: {6 if size<=7 else 8}pt Noto,Devanagari,sans-serif; color:#718096; }} @top-right {{content:"{safe(settings.get('institute','')).replace(chr(34),'')}"; font:{6 if size<=7 else 8}pt Noto,Devanagari,sans-serif; color:#718096;}} @bottom-center {{content: "Page " counter(page) " of " counter(pages); font:{6 if size<=7 else 8}pt Noto,sans-serif;color:#718096;}} }}
+    * {{box-sizing:border-box}} body {{font-family:Noto,Devanagari,sans-serif;font-size:{size}pt;line-height:{1.25 if size<=7 else 1.4};color:#24344a;font-variant-ligatures:none; overflow-wrap:anywhere;}} h1,h2,p {{margin:0}} .doc-title {{font-size:{15 if size<=7 else 20}pt;color:#15365c;margin:0 0 {3 if size<=7 else 4}pt;font-weight:700}} .doc-sub {{color:#698092;margin-bottom:{8 if size<=7 else 16}pt;font-size:{7.5 if size<=7 else 9}pt}} .block {{margin:0 0 {3 if size<=7 else (5 if compact else 8)}pt}} .keep {{break-inside:avoid; break-inside:avoid-column; page-break-inside:avoid; -webkit-column-break-inside:avoid;}} .with-next {{break-after:avoid; page-break-after:avoid; -webkit-column-break-after:avoid;}} .force,.pagebreak {{break-before:page; break-before:column;}} .pagebreak {{height:0}} h1 {{font-size:{12 if size<=7 else 16}pt;color:#173b68; margin:{6 if size<=7 else 13}pt 0 {3 if size<=7 else 5}pt;bookmark-level:1;break-after:avoid; page-break-after:avoid;}} h2 {{font-size:{9.5 if size<=7 else 12}pt;color:#19806d; margin:{5 if size<=7 else 9}pt 0 {3 if size<=7 else 4}pt;bookmark-level:none;break-after:avoid; page-break-after:avoid;}} p, .bullet {{orphans:3;widows:3}} .bullet {{display:flex;gap:7pt}} .mark {{color:#1a8b7a}} .level2 {{margin-left:17pt}} strong,b {{font-weight:700}} sup,sub {{font-size:70%;line-height:0}} .box-inner {{background:#edf7f5;border-left:3pt solid #28a58e;padding:{6 if size<=7 else 9}pt {8 if size<=7 else 11}pt;border-radius:3pt;white-space:normal}} .example .box-inner {{background:#fff7e7;border-color:#e9a537}} .box-title {{font-size:{7 if size<=7 else 9}pt;color:#187963;font-weight:700;margin-bottom:4pt;text-transform:uppercase;letter-spacing:.04em}} .example .box-title {{color:#a56815}} table {{border-collapse:collapse;width:100%;font-size:{7.5 if size<=7 else 9.5}pt}} thead {{display:table-header-group}} tr {{break-inside:avoid; break-inside:avoid-column; page-break-inside:avoid;}} th,td {{border:0.5pt solid #d4e0e5;padding:{3 if size<=7 else 5}pt {4 if size<=7 else 6}pt;text-align:left;vertical-align:top}} th {{background:#e7f1f2;color:#204c55}} .qtitle {{position:relative;padding-right:40pt}} .marks {{float:right;font-size:{6 if size<=7 else 8}pt;color:#64768a}} .options {{display:block;margin:6pt 0 0 16pt}} .options > div {{display:inline-block;width:49%;vertical-align:top;padding:2pt}} .options.single > div {{display:block;width:100%}} .answer {{color:#19806d;margin-top:5pt; break-before:avoid; page-break-before:avoid; break-inside:avoid; break-inside:avoid-column;}} figure {{margin:0;text-align:center}} img {{max-width:100%;max-height:19cm}} figcaption {{font-size:9pt;color:#708090}} .missing {{color:#b45039}} .toc-list {{padding-left:20pt}} .toc-list a {{color:#244e70;text-decoration:none}} .toc-list a::after {{content:leader('.') target-counter(attr(href), page)}} .content {{ {'column-count:2;column-gap:14pt; column-fill:auto;' if columns else ''} }}
+    /* Question-answer keep together: never split Q+options+answer across page/column */
+    .block.question {{ break-inside:avoid; break-inside:avoid-column; page-break-inside:avoid; -webkit-column-break-inside:avoid; orphans:4; widows:4; }}
+    .block.question .qtitle, .block.question .options, .block.question .answer {{ break-inside:avoid; break-inside:avoid-column; page-break-inside:avoid; }}
+    .block.question .answer {{ break-before:avoid; page-break-before:avoid; }}
     '''
     html_out=f'<!doctype html><html><head><meta charset="utf-8"><style>{css}</style></head><body><div class="doc-title">{safe(title)}</div><div class="doc-sub">{safe(settings.get("subtitle", "Study notes · Chemistry"))}</div><main class="content">{"".join(parts)}</main></body></html>'
     return html_out,doc
@@ -186,34 +203,43 @@ def _build_fallback_pdf(doc, settings, markup):
     except Exception:
         pass
 
-    margin = 2*cm
-    # Styles
+    # Dynamic font sizing: allow 5pt for dense cheat sheets
+    try:
+        base_size=float(settings.get('fontSize',10.5))
+    except Exception:
+        base_size=10.5
+    base_size=max(5.0,min(14.0,base_size))
+    is_tiny = base_size <= 7
+    margin = (1.1*cm if is_tiny else 2*cm)
+    # Styles - scale with base_size
+    def _sz(factor, default):
+        return base_size * factor if not is_tiny else base_size * factor * 0.95
     styles = getSampleStyleSheet()
-    title_style = ParagraphStyle('TitleCustom', parent=styles['Title'], fontName=font_bold, fontSize=20, textColor=colors.HexColor('#15365c'), spaceAfter=4, alignment=TA_LEFT, leading=22)
-    sub_title_style = ParagraphStyle('SubTitle', parent=styles['Normal'], fontName=font_regular, fontSize=9, textColor=colors.HexColor('#698092'), spaceAfter=16, leading=11)
-    h1_style = ParagraphStyle('H1', parent=styles['Heading1'], fontName=font_bold, fontSize=16, textColor=colors.HexColor('#173b68'), spaceBefore=13, spaceAfter=5, leading=18, keepWithNext=True)
-    h2_style = ParagraphStyle('H2', parent=styles['Heading2'], fontName=font_bold, fontSize=12, textColor=colors.HexColor('#19806d'), spaceBefore=9, spaceAfter=4, leading=14, keepWithNext=True)
-    normal_style = ParagraphStyle('NormalCustom', parent=styles['Normal'], fontName=font_regular, fontSize=10.5, textColor=colors.HexColor('#24344a'), leading=15, spaceAfter=6, alignment=TA_LEFT, wordWrap='CJK')
-    bullet_style = ParagraphStyle('Bullet', parent=normal_style, leftIndent=14, firstLineIndent=0, spaceAfter=4, bulletIndent=0)
-    bullet2_style = ParagraphStyle('Bullet2', parent=bullet_style, leftIndent=28)
-    box_title_style = ParagraphStyle('BoxTitle', parent=styles['Normal'], fontName=font_bold, fontSize=9, textColor=colors.HexColor('#187963'), leading=11, spaceAfter=4)
-    box_body_style = ParagraphStyle('BoxBody', parent=normal_style, fontSize=9.5, leading=13, textColor=colors.HexColor('#24344a'))
+    title_style = ParagraphStyle('TitleCustom', parent=styles['Title'], fontName=font_bold, fontSize=20 if not is_tiny else 15, textColor=colors.HexColor('#15365c'), spaceAfter=4, alignment=TA_LEFT, leading=22 if not is_tiny else 16)
+    sub_title_style = ParagraphStyle('SubTitle', parent=styles['Normal'], fontName=font_regular, fontSize=9 if not is_tiny else 7.5, textColor=colors.HexColor('#698092'), spaceAfter=16 if not is_tiny else 8, leading=11)
+    h1_style = ParagraphStyle('H1', parent=styles['Heading1'], fontName=font_bold, fontSize=16 if not is_tiny else 12, textColor=colors.HexColor('#173b68'), spaceBefore=13 if not is_tiny else 6, spaceAfter=5 if not is_tiny else 3, leading=18 if not is_tiny else 13, keepWithNext=True)
+    h2_style = ParagraphStyle('H2', parent=styles['Heading2'], fontName=font_bold, fontSize=12 if not is_tiny else 9.5, textColor=colors.HexColor('#19806d'), spaceBefore=9 if not is_tiny else 5, spaceAfter=4 if not is_tiny else 3, leading=14 if not is_tiny else 11, keepWithNext=True)
+    normal_style = ParagraphStyle('NormalCustom', parent=styles['Normal'], fontName=font_regular, fontSize=base_size, textColor=colors.HexColor('#24344a'), leading=base_size*1.42, spaceAfter=6 if not is_tiny else 3, alignment=TA_LEFT, wordWrap='CJK')
+    bullet_style = ParagraphStyle('Bullet', parent=normal_style, leftIndent=14, firstLineIndent=0, spaceAfter=4 if not is_tiny else 2, bulletIndent=0)
+    bullet2_style = ParagraphStyle('Bullet2', parent=bullet_style, leftIndent=28, spaceAfter=2 if is_tiny else 4)
+    box_title_style = ParagraphStyle('BoxTitle', parent=styles['Normal'], fontName=font_bold, fontSize=9 if not is_tiny else 7, textColor=colors.HexColor('#187963'), leading=11, spaceAfter=4)
+    box_body_style = ParagraphStyle('BoxBody', parent=normal_style, fontSize=9.5 if not is_tiny else base_size, leading=13 if not is_tiny else base_size*1.3, textColor=colors.HexColor('#24344a'))
     example_title_style = ParagraphStyle('ExampleTitle', parent=box_title_style, textColor=colors.HexColor('#a56815'))
-    small_style = ParagraphStyle('Small', parent=normal_style, fontSize=9.5, textColor=colors.HexColor('#708090'), alignment=TA_CENTER)
-    question_style = ParagraphStyle('Question', parent=normal_style, fontName=font_bold, spaceAfter=3, leading=15)
-    option_style = ParagraphStyle('Option', parent=normal_style, leftIndent=16, spaceAfter=2, fontSize=10, leading=13)
-    answer_style = ParagraphStyle('Answer', parent=normal_style, textColor=colors.HexColor('#19806d'), spaceBefore=5)
-    header_style = ParagraphStyle('Header', parent=styles['Normal'], fontName=font_regular, fontSize=8, textColor=colors.HexColor('#718096'), alignment=TA_CENTER)
+    small_style = ParagraphStyle('Small', parent=normal_style, fontSize=9.5 if not is_tiny else 7, textColor=colors.HexColor('#708090'), alignment=TA_CENTER)
+    question_style = ParagraphStyle('Question', parent=normal_style, fontName=font_bold, spaceAfter=3 if not is_tiny else 2, leading=base_size*1.42)
+    option_style = ParagraphStyle('Option', parent=normal_style, leftIndent=16, spaceAfter=2, fontSize=10 if not is_tiny else base_size, leading=13 if not is_tiny else base_size*1.3)
+    answer_style = ParagraphStyle('Answer', parent=normal_style, textColor=colors.HexColor('#19806d'), spaceBefore=5 if not is_tiny else 3, leading=base_size*1.35)
+    header_style = ParagraphStyle('Header', parent=styles['Normal'], fontName=font_regular, fontSize=8 if not is_tiny else 6, textColor=colors.HexColor('#718096'), alignment=TA_CENTER)
     
     # Adjust for compact/cheat
     compact = bool(settings.get('compact')) or settings.get('theme') == 'cheat'
     if compact:
         for s in [normal_style, bullet_style, bullet2_style, box_body_style, option_style]:
-            s.spaceAfter = 3
-            s.leading = 13
-        h1_style.spaceBefore = 8
-        h1_style.spaceAfter = 3
-        h2_style.spaceBefore = 6
+            s.spaceAfter = 2 if is_tiny else 3
+            s.leading = base_size*1.25 if is_tiny else 13
+        h1_style.spaceBefore = 6 if is_tiny else 8
+        h1_style.spaceAfter = 2 if is_tiny else 3
+        h2_style.spaceBefore = 4 if is_tiny else 6
 
     title_text = settings.get('title') or doc.title or 'Chemistry Notes'
     if title_text == 'Untitled':
@@ -407,24 +433,23 @@ def _build_fallback_pdf(doc, settings, markup):
             num = question_no
             marks = f' <font color="#64768a">[{safe(data.get("marks"))} marks]</font>' if data.get('marks') else ''
             q_body = _rl_text(b.text)
-            story.append(Paragraph(f'<b>Q{num}.</b> {q_body}{marks}', question_style))
+            # Collect all question parts to keep answer together with question (never split answer to next page/side)
+            q_flow = []
+            q_flow.append(Paragraph(f'<b>Q{num}.</b> {q_body}{marks}', question_style))
             opts = data.get('options',[]) or getattr(b,'items',[]) or []
             if opts:
-                # Layout options: grid 2x2 vs single vertical
                 layout = settings.get('optionLayout','grid')
                 if layout == 'single':
                     for i,o in enumerate(opts):
                         key = o.get('key', chr(65+i)) if isinstance(o, dict) else chr(65+i)
                         txt_o = o.get('text','') if isinstance(o, dict) else str(o)
-                        story.append(Paragraph(f'({safe(key)}) {_rl_text(txt_o)}', option_style))
+                        q_flow.append(Paragraph(f'({safe(key)}) {_rl_text(txt_o)}', option_style))
                 else:
-                    # grid: 2 per row via Table
                     opt_paras = []
                     for i,o in enumerate(opts):
                         key = o.get('key', chr(65+i)) if isinstance(o, dict) else chr(65+i)
                         txt_o = o.get('text','') if isinstance(o, dict) else str(o)
                         opt_paras.append(Paragraph(f'({safe(key)}) {_rl_text(txt_o)}', option_style))
-                    # Build rows of 2
                     rows = []
                     for i in range(0, len(opt_paras), 2):
                         row = opt_paras[i:i+2]
@@ -441,19 +466,53 @@ def _build_fallback_pdf(doc, settings, markup):
                             ('TOPPADDING', (0,0), (-1,-1), 2),
                             ('BOTTOMPADDING', (0,0), (-1,-1), 2),
                         ]))
-                        story.append(t)
+                        q_flow.append(t)
             answer = data.get('answer')
             if answer:
                 answers.append((num, answer))
                 if settings.get('answerMode') == 'inline':
-                    story.append(Paragraph(f'<font color="#19806d">Answer: {_rl_text(answer)}</font>', answer_style))
-            # Add separator for question theme
+                    q_flow.append(Paragraph(f'<font color="#19806d">Answer: {_rl_text(answer)}</font>', answer_style))
+            # separator
             if theme == 'question':
-                story.append(HRFlowable(width="100%", thickness=0.5, color=colors.HexColor('#dfe7e5'), spaceAfter=6, spaceBefore=2))
+                sep = HRFlowable(width="100%", thickness=0.5, color=colors.HexColor('#dfe7e5'), spaceAfter=6, spaceBefore=2)
             elif theme == 'worksheet':
-                story.append(HRFlowable(width="100%", thickness=1, color=colors.HexColor('#ccd8d3'), spaceAfter=8, spaceBefore=2, lineCap='round', dash=(3,3)))
+                sep = HRFlowable(width="100%", thickness=1, color=colors.HexColor('#ccd8d3'), spaceAfter=8, spaceBefore=2, lineCap='round', dash=(3,3))
             else:
-                story.append(Spacer(1,4))
+                sep = Spacer(1,4)
+            q_flow.append(sep)
+            # Heuristic: if total text is short (<~900 chars), keep entire Q+options+answer together
+            # so answer never lands on next page/side alone. If too tall for a page, allow split but still keep answer with last options.
+            total_chars = len(b.text) + sum(len(o.get('text','') if isinstance(o,dict) else str(o)) for o in opts) + (len(answer) if answer and settings.get('answerMode')=='inline' else 0)
+            # Very tall question ( > page height ) cannot be kept together, so add normally
+            if total_chars < 900:
+                try:
+                    story.append(KeepTogether(q_flow))
+                except Exception:
+                    # fallback: if KeepTogether would overflow page, add as normal but ensure answer not orphaned
+                    # Use manual check: if last two items are answer, keep them together with previous options
+                    if len(q_flow) >= 2 and settings.get('answerMode')=='inline' and answer:
+                        # keep answer with last option row
+                        story.extend(q_flow[:-2])
+                        try:
+                            story.append(KeepTogether(q_flow[-2:]))
+                        except Exception:
+                            story.extend(q_flow[-2:])
+                    else:
+                        story.extend(q_flow)
+            else:
+                # For long questions, at least keep answer together with previous block
+                if settings.get('answerMode')=='inline' and answer and len(q_flow)>=2:
+                    story.extend(q_flow[:-1])
+                    try:
+                        # try keep answer + last option together
+                        last = q_flow[-2:]  # sep is last, answer before it
+                        # actually q_flow = [..., answer, sep]; keep answer+sep together + previous
+                        # keep last 3 if possible
+                        story.append(KeepTogether(q_flow[-2:]))
+                    except Exception:
+                        story.extend(q_flow[-1:])
+                else:
+                    story.extend(q_flow)
             continue
         if typ == 'equation':
             from .mathmini import render_math
