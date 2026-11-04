@@ -1,6 +1,542 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Chemistry Notes Studio</title><style>
-@font-face{font-family:noto;src:url('/static/noto.ttf')}*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;background:#f4f6f5;color:#1c3033}button,input,select,textarea{font:inherit}button{cursor:pointer}header{height:68px;background:white;border-bottom:1px solid #e3e9e7;display:flex;align-items:center;padding:0 28px;gap:13px}.brand-icon{height:37px;width:37px;border-radius:11px;background:#113f3c;display:grid;place-items:center;color:#ccf8bc;font-weight:800;font-size:21px}.brand{font-weight:750;letter-spacing:-.4px;font-size:16px}.brand small{display:block;font-size:10px;color:#899c98;text-transform:uppercase;letter-spacing:.12em;margin-top:2px}.headright{margin-left:auto;display:flex;align-items:center;gap:10px}.pill{font-size:11px;background:#eef7f1;color:#42805f;padding:6px 10px;border-radius:30px}.btn{border:1px solid #d9e3df;background:white;color:#38534f;border-radius:7px;padding:9px 13px;font-weight:600;font-size:12px}.btn:hover{background:#f0f8f4}.btn.primary{background:#164f48;color:white;border-color:#164f48}.btn.primary:hover{background:#216b60}.shell{max-width:1600px;margin:auto;padding:26px 32px}.intro{display:flex;align-items:end;justify-content:space-between;margin-bottom:23px}.eyebrow{color:#668880;text-transform:uppercase;font-size:10px;font-weight:800;letter-spacing:.15em}.intro h1{font-family:Georgia,serif;font-size:28px;letter-spacing:-.6px;margin:7px 0 5px;font-weight:normal;color:#193b38}.intro p{margin:0;color:#778d88;font-size:13px}.workspace{display:grid;grid-template-columns:minmax(350px,1fr) minmax(340px,1fr);gap:20px}.panel{background:white;border:1px solid #e2e9e6;border-radius:12px;overflow:hidden;box-shadow:0 3px 14px #1a4b3b08}.panelhead{display:flex;align-items:center;padding:17px 20px;border-bottom:1px solid #ecf0ee;gap:10px}.panelhead h2{margin:0;font-size:14px}.panelhead p{margin:3px 0 0;font-size:11px;color:#91a19c}.dot{width:8px;height:8px;background:#63b892;border-radius:100%;margin-right:3px}.panelhead .end{margin-left:auto}.controls{padding:16px 20px 13px;display:grid;grid-template-columns:1fr 1fr;gap:12px}label{font-size:10px;font-weight:750;color:#718781;letter-spacing:.06em;text-transform:uppercase;display:block}input,select{margin-top:6px;width:100%;height:35px;border:1px solid #dce6e1;border-radius:6px;color:#28433e;background:white;padding:0 9px;font-size:12px;outline:none}input:focus,select:focus,textarea:focus{border-color:#72b6a4}.editorbar{display:flex;gap:6px;align-items:center;padding:7px 20px;background:#f9fbfa;border-block:1px solid #edf1ef}.tag{border:1px solid #dfe9e3;border-radius:5px;background:white;padding:5px 8px;color:#55746c;font-size:11px}.editorbar span{margin-left:auto;color:#9aaba5;font-size:10px}textarea{display:block;width:100%;height:450px;padding:19px 22px;border:0;resize:vertical;outline:none;font-family:ui-monospace,Consolas,monospace;font-size:12px;line-height:1.8;color:#38524d;background:#fff}.editorfoot{border-top:1px solid #edf1ef;padding:12px 20px;display:flex;gap:8px;align-items:center}.editorfoot .end{margin-left:auto;color:#94a49e;font-size:11px}.previewbody{height:665px;overflow:auto;background:#e9efec;padding:24px;display:flex;flex-direction:column;align-items:center;gap:20px}.previewbody img{width:min(100%,530px);height:auto;box-shadow:0 4px 22px #27463d1c;background:white}.placeholder{margin:auto;text-align:center;color:#7e968e;font-size:13px}.placeholder .big{font-size:34px;margin-bottom:12px}.statusbar{display:flex;align-items:center;padding:13px 18px;font-size:11px;color:#879b94;gap:8px}.statusbar b{color:#52816e}.statusbar .end{margin-left:auto}.guide{margin-top:20px;background:#eaf3ed;border:1px solid #deebe1;border-radius:10px;padding:16px 20px;display:flex;gap:18px;color:#628078;font-size:12px;line-height:1.6}.guide strong{color:#346258}.guide code{background:#fff;padding:2px 5px;border-radius:4px;color:#356c5d}.more{padding:0 20px 12px;display:flex;gap:15px;align-items:center;flex-wrap:wrap}.more label{letter-spacing:0;text-transform:none;display:flex;align-items:center;gap:5px}.more input{width:auto;height:auto;margin:0}.more select{width:auto;height:29px;margin:0}.error{color:#bd5346!important}@media(max-width:800px){header{padding:0 15px}.headright .pill{display:none}.shell{padding:20px 15px}.workspace{grid-template-columns:1fr}.intro h1{font-size:24px}.previewbody{height:580px}.headright .btn{padding:8px}.controls{grid-template-columns:1fr 1fr}}
-</style></head><body><header><div class="brand-icon">⌬</div><div class="brand">Chemistry Notes<small>Studio for teachers</small></div><div class="headright"><span class="pill">● &nbsp; Ready to create</span><button class="btn" id="load">Open project</button><button class="btn" id="save">Save project</button><input id="file" type="file" accept=".json,.md,.txt" hidden></div></header><main class="shell"><div class="intro"><div><div class="eyebrow">YOUR TEACHING WORKSPACE &nbsp; / &nbsp; NOTES EDITOR</div><h1>Make your notes make sense.</h1><p>अपना content लिखें, preview देखें और खूबसूरत PDF बनाएं।</p></div></div><div class="workspace"><section class="panel"><div class="panelhead"><div class="dot"></div><div><h2>Content editor</h2><p>Write or paste your chemistry notes</p></div><button class="btn end" id="sample">↺ &nbsp; Sample</button></div><div class="controls"><label>Document title<input id="title" value="Coordination Compounds"></label><label>Institute / header<input id="institute" placeholder="e.g. Your institute name"></label><label>Layout<select id="columns"><option value="1">Single column</option><option value="2">Two columns</option></select></label><label>Template<select id="theme"><option value="notes">Study notes</option><option value="question">Question paper</option><option value="worksheet">Worksheet</option><option value="cheat">Cheat sheet</option></select></label></div><div class="more"><label><input type="checkbox" id="compact"> Compact spacing</label><label>Options <select id="optionLayout"><option value="grid">2 × 2</option><option value="single">Vertical</option></select></label><label>Answers <select id="answerMode"><option value="none">Hide</option><option value="inline">With questions</option><option value="separate">Separate page</option></select></label></div><div class="editorbar"><button class="tag" data-insert="★ ">★ Topic</button><button class="tag" data-insert="► ">► Subtopic</button><button class="tag" data-insert="◆ ">◆ Point</button><button class="tag" data-insert="\n::: example\n\n:::\n">＋ Example</button><span>Markdown / JSON</span></div><textarea id="source" spellcheck="false">{{ sample }}</textarea><div class="editorfoot"><button class="btn" id="undo">↶ Undo</button><button class="btn" id="redo">↷ Redo</button><span class="end" id="chars"></span></div></section><section class="panel"><div class="panelhead"><div class="dot"></div><div><h2>Live preview</h2><p>See exactly how your pages will look</p></div><button class="btn end" id="refresh">↻ &nbsp; Refresh</button></div><div class="previewbody" id="preview"><div class="placeholder"><div class="big">▤</div>Preparing your preview…</div></div><div class="statusbar"><b>●</b><span id="status">Rendering pages…</span><span class="end">A4 &nbsp; · &nbsp; 2 cm margins</span></div><div class="editorfoot"><button class="btn primary" data-export="pdf">↓ &nbsp; Export PDF</button><button class="btn" data-export="docx">DOCX</button><button class="btn" data-export="html">HTML</button><span class="end">Text remains selectable in PDF</span></div></section></div><div class="guide"><span style="font-size:22px">✧</span><div><strong>A little formatting goes a long way</strong><br>Use <code>★</code> for topics, <code>►</code> for subtopics, <code>◆</code> for points and <code>::: example</code> ... <code>:::</code> for a box. Add <code>[pagebreak]</code> for a new page. लिखें और preview अपने आप अपडेट होगा।</div></div></main><script>
-const $=id=>document.getElementById(id), source=$('source'), initial=source.value, keys=['title','institute','columns','theme','compact','optionLayout','answerMode'];let timer,sequence=0,controller;
-function settings(){return Object.fromEntries(keys.map(k=>[k,$(k).type==='checkbox'?$(k).checked:$(k).value]))}function data(){return {source:source.value,settings:settings()}}function status(t,err=false){$('status').textContent=t;$('status').className=err?'error':''}async function refresh(){let seq=++sequence;if(controller)controller.abort();controller=new AbortController();status('Rendering pages…');try{let r=await fetch('/api/preview',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data()),signal:controller.signal});let d=await r.json();if(!r.ok)throw Error(d.error);if(seq!==sequence)return;$('preview').innerHTML='';d.pages.forEach((p,i)=>{let img=document.createElement('img');img.src='data:image/png;base64,'+p;img.alt='Page '+(i+1);$('preview').appendChild(img)});status(`${d.count} ${d.count===1?'page':'pages'} · ${d.blocks} content blocks${d.truncated?' · first 20 shown':''}`)}catch(e){if(e.name!=='AbortError')status('Preview error: '+e.message,true)}}function schedule(){clearTimeout(timer);$('chars').textContent=source.value.length+' characters';status('Changes pending…');timer=setTimeout(refresh,900)}source.addEventListener('input',schedule);keys.forEach(k=>$(k).addEventListener('change',schedule));$('refresh').onclick=()=>{clearTimeout(timer);refresh()};$('sample').onclick=()=>{source.value=initial;schedule()};document.querySelectorAll('[data-insert]').forEach(b=>b.onclick=()=>{source.focus();document.execCommand('insertText',false,b.dataset.insert);schedule()});$('undo').onclick=()=>{source.focus();document.execCommand('undo');schedule()};$('redo').onclick=()=>{source.focus();document.execCommand('redo');schedule()};function download(blob,name){let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}$('save').onclick=()=>download(new Blob([JSON.stringify(data(),null,2)],{type:'application/json'}),'chemistry-project.json');$('load').onclick=()=>$('file').click();$('file').onchange=async e=>{let f=e.target.files[0];if(!f)return;let t=await f.text();try{let p=JSON.parse(t);if(typeof p.source==='string'){source.value=p.source;keys.forEach(k=>{if(p.settings&&k in p.settings){if($(k).type==='checkbox')$(k).checked=p.settings[k];else $(k).value=p.settings[k]}})}else source.value=t}catch{source.value=t}e.target.value='';schedule()};document.querySelectorAll('[data-export]').forEach(b=>b.onclick=async()=>{let kind=b.dataset.export;b.disabled=true;status('Preparing '+kind.toUpperCase()+'…');try{let r=await fetch('/api/export/'+kind,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data())});if(!r.ok){let d=await r.json();throw Error(d.error)}download(await r.blob(),'chemistry-notes.'+kind);status(kind.toUpperCase()+' downloaded')}catch(e){status(e.message,true)}finally{b.disabled=false}});schedule();
-</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Chemistry Notes Studio — make beautiful chemistry notes, question papers, and cheat sheets.">
+<title>Chemistry Notes Studio</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23113f3c'/><text x='50' y='68' font-size='54' text-anchor='middle' fill='%23ccf8bc'>⌬</text></svg>">
+<style>
+*{box-sizing:border-box}
+:root{--bg:#f4f6f5;--card:#fff;--ink:#1c3033;--muted:#77918b;--line:#e3e9e7;--line2:#eaf0ee;--accent:#164f48;--accent2:#1a8b7a;--accent-soft:#eef7f1;--warn:#a56915;--paper:#e9efec;--radius:12px;--shadow:0 3px 18px rgba(26,75,59,.08)}
+html,body{height:100%}
+body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+a{color:var(--accent2)}
+/* header */
+header{height:64px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 20px 0 22px;gap:12px;position:sticky;top:0;z-index:30}
+.brand-icon{height:36px;width:36px;border-radius:10px;background:#113f3c;display:grid;place-items:center;color:#ccf8bc;font-weight:800;font-size:20px;flex:none}
+.brand{font-weight:800;letter-spacing:-.3px;font-size:15px;line-height:1}
+.brand small{display:block;font-size:10px;color:#8aa39d;text-transform:uppercase;letter-spacing:.13em;margin-top:3px;font-weight:700}
+.headright{margin-left:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pill{font-size:11px;background:var(--accent-soft);color:#2d7a5f;padding:6px 11px;border-radius:999px;border:1px solid #dbece4;white-space:nowrap}
+.btn{border:1px solid #d9e3df;background:#fff;color:#2f4a46;border-radius:8px;padding:9px 12px;font-weight:650;font-size:12.5px;display:inline-flex;align-items:center;gap:6px;transition:.15s;white-space:nowrap}
+.btn:hover{background:#f0f8f4;border-color:#c9d9d2;transform:translateY(-1px)}
+.btn:active{transform:none}
+.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn.primary:hover{background:#1c665c}
+.btn.ghost{background:transparent}
+.btn.small{padding:6px 9px;font-size:11.5px;border-radius:7px}
+.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.shell{max-width:1580px;margin:auto;padding:22px 24px 28px}
+.intro{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:18px;flex-wrap:wrap}
+.eyebrow{color:#668880;text-transform:uppercase;font-size:10.5px;font-weight:800;letter-spacing:.14em}
+.intro h1{font-family:Georgia,serif;font-size:28px;letter-spacing:-.6px;margin:6px 0 4px;font-weight:700;color:#143a37}
+.intro p{margin:0;color:#6e8681;font-size:13.2px;max-width:680px}
+.workspace{display:grid;grid-template-columns:minmax(360px,1fr) minmax(380px,1fr);gap:18px;align-items:start}
+@media(max-width:980px){.workspace{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.panelhead{display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line2);gap:10px;background:#fff}
+.panelhead h2{margin:0;font-size:13.5px;letter-spacing:-.2px}
+.panelhead p{margin:2px 0 0;font-size:11px;color:#8da39e}
+.dot{width:9px;height:9px;background:#63b892;border-radius:999px;flex:none}
+.panelhead .end{margin-left:auto;display:flex;gap:6px}
+.controls{padding:14px 16px 10px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.controls.full{grid-template-columns:1fr 1fr 1fr}
+@media(max-width:700px){.controls{grid-template-columns:1fr 1fr}.controls.full{grid-template-columns:1fr 1fr}}
+label{font-size:10.5px;font-weight:750;color:#6b8580;letter-spacing:.05em;text-transform:uppercase;display:block}
+label span.hint{font-weight:500;text-transform:none;letter-spacing:0;color:#8aa39d;font-size:10px;display:block;margin-top:2px}
+input,select{margin-top:6px;width:100%;height:36px;border:1px solid #dce6e1;border-radius:8px;color:#28433e;background:#fff;padding:0 10px;font-size:13px;outline:none;transition:.15s}
+input:focus,select:focus,textarea:focus{border-color:#72b6a4;box-shadow:0 0 0 3px #e6f3ef}
+.more{padding:6px 16px 12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;border-top:1px dashed var(--line2);margin-top:4px}
+.more label{letter-spacing:0;text-transform:none;display:flex;align-items:center;gap:6px;font-weight:600;color:#4a6761;font-size:12px}
+.more input{width:auto;height:auto;margin:0;accent-color:var(--accent2)}
+.more select{width:auto;height:32px;margin:0;font-size:12px;padding:0 8px}
+.editorbar{display:flex;gap:6px;align-items:center;padding:8px 12px;background:#f9fbfa;border-block:1px solid #edf1ef;flex-wrap:wrap}
+.tag{border:1px solid #dfe9e3;border-radius:7px;background:#fff;padding:6px 9px;color:#4f6e67;font-size:11.5px;font-weight:600}
+.tag:hover{background:#eef6f2;border-color:#cfe3db}
+.editorbar span.sep{flex:1}
+.editorbar .muted{color:#97aea7;font-size:10.5px;white-space:nowrap}
+textarea#source{display:block;width:100%;height:420px;min-height:260px;max-height:70vh;padding:16px 16px 18px;border:0;resize:vertical;outline:none;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.8px;line-height:1.75;color:#2e4a46;background:#fff;tab-size:2}
+textarea#source::placeholder{color:#9ab1aa}
+.editorfoot{border-top:1px solid var(--line2);padding:10px 14px;display:flex;gap:8px;align-items:center;background:#fcfdfc;flex-wrap:wrap}
+.editorfoot .end{margin-left:auto;color:#8ea39d;font-size:11px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.kbd{font-family:ui-monospace,monospace;font-size:10px;background:#eef3f0;border:1px solid #d8e3df;border-bottom-width:2px;padding:2px 5px;border-radius:5px;color:#5a7a73}
+.previewbody{height:640px;overflow:auto;background:var(--paper);padding:22px;display:flex;flex-direction:column;align-items:center;gap:18px;scroll-behavior:smooth}
+@media(max-width:980px){.previewbody{height:560px}}
+.previewbody img{width:min(100%,540px);height:auto;box-shadow:0 8px 28px rgba(24,60,50,.13),0 2px 8px rgba(24,60,50,.08);background:#fff;border-radius:4px}
+.previewbody .page-wrap{position:relative;width:min(100%,540px);display:flex;flex-direction:column;align-items:center}
+.previewbody .page-num{margin-top:6px;font-size:10.5px;color:#6f8a83;background:#fff;border:1px solid #dbe6e1;padding:3px 8px;border-radius:999px}
+.placeholder{margin:auto;text-align:center;color:#7e968e;font-size:13px;max-width:420px;padding:24px}
+.placeholder .big{font-size:36px;margin-bottom:10px}
+.statusbar{display:flex;align-items:center;padding:10px 14px;font-size:11.5px;color:#7d9690;gap:8px;border-top:1px solid var(--line2);background:#fbfcfb;flex-wrap:wrap}
+.statusbar b{color:#3f7a6a}
+.statusbar .end{margin-left:auto}
+.guide{margin-top:16px;background:#eaf3ed;border:1px solid #deebe1;border-radius:10px;padding:14px 16px;display:flex;gap:14px;color:#5e7d74;font-size:12.2px;line-height:1.6}
+.guide strong{color:#2e5a4e}
+.guide code{background:#fff;padding:2px 5px;border-radius:4px;color:#2d6b5a;border:1px solid #dff1e8;font-family:ui-monospace,monospace;font-size:11px}
+.issues{margin-top:12px;background:#fff;border:1px solid #e5e9e7;border-radius:10px;overflow:hidden}
+.issues h3{margin:0;padding:12px 14px;font-size:12px;border-bottom:1px solid var(--line2);display:flex;align-items:center;gap:8px;background:#fbfdfb}
+.issue{padding:10px 14px;border-bottom:1px solid #f0f3f2;display:flex;gap:10px;font-size:12.5px;line-height:1.5}
+.issue:last-child{border:0}
+.badge{font-size:10px;font-weight:800;padding:3px 7px;border-radius:999px;height:fit-content;flex:none}
+.badge.warn{background:#fff4d6;color:#8a6a12;border:1px solid #ffe8a8}
+.badge.info{background:#e6f3ff;color:#295a8a;border:1px solid #cfe4ff}
+.badge.ok{background:#e6f7ee;color:#1b6b3a;border:1px solid #c6ead6}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#132a26;color:#e8f5f0;padding:10px 14px;border-radius:10px;font-size:12.5px;box-shadow:0 8px 24px rgba(0,0,0,.18);display:none;z-index:50;max-width:90vw;text-align:center}
+.toast.show{display:block}
+.zoombar{display:flex;gap:6px;align-items:center}
+.zoombar input[type=range]{width:90px;height:auto;margin:0;accent-color:var(--accent2)}
+.drop{border:1.5px dashed #c8d9d2;background:#f7faf8;border-radius:10px;padding:10px 12px;font-size:12px;color:#5b7a73;text-align:center;cursor:pointer}
+.drop.drag{border-color:var(--accent2);background:#eef7f1}
+.help{position:fixed;inset:0;background:rgba(15,30,28,.45);backdrop-filter:blur(4px);display:none;z-index:40;overflow:auto;padding:24px}
+.help.open{display:block}
+.help-card{max-width:760px;margin:30px auto;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.18);border:1px solid var(--line)}
+.help-head{padding:18px 20px;border-bottom:1px solid var(--line2);display:flex;align-items:center;gap:10px}
+.help-body{padding:18px 20px;font-size:13px;line-height:1.7;color:#2f4a46}
+.help-body h3{margin:16px 0 6px;font-size:13px;color:#143a37}
+.help-body code{background:#f1f6f4;padding:2px 6px;border-radius:5px;border:1px solid #e3ebe7;font-family:ui-monospace,monospace;font-size:12px}
+.error{color:#b44a3a!important}
+.mono{font-family:ui-monospace,monospace}
+.sr-only{position:absolute;left:-9999px}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand-icon">⌬</div>
+  <div class="brand">Chemistry Notes <small>Studio for teachers</small></div>
+  <div class="headright">
+    <span class="pill" id="healthPill" title="Backend status">● Checking…</span>
+    <button class="btn small" id="helpBtn" title="Formatting help ( ? )">? Help</button>
+    <button class="btn small" id="load">Open project</button>
+    <button class="btn small" id="save">Save project</button>
+    <button class="btn small" id="printBtn">Print</button>
+    <input id="file" type="file" accept=".json,.md,.txt" hidden>
+    <input id="pdfFile" type="file" accept="application/pdf" hidden>
+  </div>
+</header>
+
+<main class="shell">
+  <div class="intro">
+    <div>
+      <div class="eyebrow">Your teaching workspace &nbsp; / &nbsp; Notes editor</div>
+      <h1>Make your notes make sense.</h1>
+      <p>अपना content लिखें, preview देखें और खूबसूरत PDF बनाएं — chemistry-aware formatting, equations, tables और question papers के साथ।</p>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn small" id="importPdfBtn" title="Extract text from a PDF to edit">⇡ Import PDF</button>
+      <span class="kbd">Ctrl+Enter ↻ Preview</span>
+      <span class="kbd">Ctrl+S Save</span>
+    </div>
+  </div>
+
+  <div class="workspace">
+    <section class="panel" aria-label="Content editor">
+      <div class="panelhead">
+        <div class="dot" aria-hidden="true"></div>
+        <div>
+          <h2>Content editor</h2>
+          <p>Write or paste your chemistry notes</p>
+        </div>
+        <div class="end">
+          <button class="btn small" id="sample" title="Restore sample document">↺ Sample</button>
+          <button class="btn small" id="clear" title="Clear editor">Clear</button>
+        </div>
+      </div>
+
+      <div class="controls">
+        <label>Document title
+          <input id="title" value="Coordination Compounds" placeholder="e.g. Chemical Bonding">
+          <span class="hint">Appears on cover & header</span>
+        </label>
+        <label>Institute / header
+          <input id="institute" placeholder="e.g. Your institute name">
+          <span class="hint">Top-right on each page</span>
+        </label>
+        <label>Subtitle
+          <input id="subtitle" value="Study notes · Chemistry" placeholder="e.g. Class 12 · Chapter 1">
+        </label>
+        <label>Layout
+          <select id="columns">
+            <option value="1">Single column</option>
+            <option value="2">Two columns</option>
+          </select>
+        </label>
+        <label>Template
+          <select id="theme">
+            <option value="notes">Study notes</option>
+            <option value="question">Question paper</option>
+            <option value="worksheet">Worksheet</option>
+            <option value="cheat">Cheat sheet</option>
+          </select>
+        </label>
+        <label>Font size
+          <select id="fontSize">
+            <option value="9.5">Compact (9.5)</option>
+            <option value="10.5" selected>Default (10.5)</option>
+            <option value="11.5">Large (11.5)</option>
+            <option value="12">XL (12)</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="more">
+        <label title="Reduce spacing for dense notes"><input type="checkbox" id="compact"> Compact spacing</label>
+        <label>Options <select id="optionLayout"><option value="grid">2 × 2 grid</option><option value="single">Vertical</option></select></label>
+        <label>Answers <select id="answerMode"><option value="none">Hide</option><option value="inline">With questions</option><option value="separate">Separate page</option></select></label>
+        <label style="margin-left:auto">Watermark <input id="watermark" placeholder="e.g. DRAFT" style="height:32px;width:120px"></label>
+      </div>
+
+      <div class="editorbar" role="toolbar" aria-label="Insert helpers">
+        <button class="tag" data-insert="★ ">★ Topic</button>
+        <button class="tag" data-insert="► ">► Subtopic</button>
+        <button class="tag" data-insert="◆ ">◆ Point</button>
+        <button class="tag" data-insert="| Property | Value |
+| --- | --- |
+| H2O | Water |
+">▦ Table</button>
+        <button class="tag" data-insert="::: example
+**Question:** 
+**Solution:** 
+:::">＋ Example</button>
+        <button class="tag" data-insert="::: keypoint याद रखें
+A ligand may be monodentate, bidentate or polydentate.
+:::">◆ Keypoint</button>
+        <button class="tag" data-insert="[eq] \\mu_s = \\sqrt{n(n+2)} [/eq]">ƒ(x) Eq</button>
+        <button class="tag" data-insert="Q1. Which is bidentate?
+(A) H2O
+(B) ethylenediamine
+(C) NH3
+(D) Cl-
+[ans] B">Q MCQ</button>
+        <span class="sep"></span>
+        <span class="muted">Markdown / JSON — drag image or PDF here</span>
+      </div>
+
+      <textarea id="source" spellcheck="false" placeholder="★ Coordination Compounds
+► Introduction
+◆ **Coordination entity:** ...">{{ sample }}</textarea>
+
+      <div class="editorfoot">
+        <button class="btn small" id="undo">↶ Undo</button>
+        <button class="btn small" id="redo">↷ Redo</button>
+        <button class="btn small" id="check" title="Validate document">✓ Check</button>
+        <div class="end" id="charsWrap">
+          <span id="chars"></span>
+          <span class="kbd">Tab → 2 spaces</span>
+          <div class="drop" id="drop" title="Drop image (PNG/JPG) to embed as data URL, or PDF to extract text">Drop file</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" aria-label="Live preview">
+      <div class="panelhead">
+        <div class="dot" aria-hidden="true"></div>
+        <div>
+          <h2>Live preview</h2>
+          <p>See exactly how your pages will look</p>
+        </div>
+        <div class="end">
+          <div class="zoombar">
+            <button class="btn small" id="zoomOut">−</button>
+            <input type="range" id="zoom" min="60" max="140" value="100" title="Zoom">
+            <button class="btn small" id="zoomIn">+</button>
+          </div>
+          <button class="btn small" id="refresh">↻ Refresh</button>
+        </div>
+      </div>
+
+      <div class="previewbody" id="preview">
+        <div class="placeholder"><div class="big">▤</div>Preparing your preview… <br><span style="font-size:11px;color:#9aaea6">Preview shows first 20 pages; PDF export includes all</span></div>
+      </div>
+
+      <div class="statusbar">
+        <b>●</b><span id="status">Rendering pages…</span>
+        <span class="end">A4 &nbsp;·&nbsp; 2 cm margins &nbsp;·&nbsp; <span id="pageInfo">—</span></span>
+      </div>
+
+      <div class="editorfoot">
+        <button class="btn primary" data-export="pdf">↓ Export PDF</button>
+        <button class="btn" data-export="docx">DOCX</button>
+        <button class="btn" data-export="html">HTML</button>
+        <span class="end">Text remains selectable in PDF &nbsp;·&nbsp; <a href="#" id="diagLink">Diagnostics</a></span>
+      </div>
+    </section>
+  </div>
+
+  <div class="guide">
+    <div style="font-size:20px">✧</div>
+    <div><strong>A little formatting goes a long way</strong><br>
+      Use <code>★</code> for topics, <code>►</code> for subtopics, <code>◆</code> for points and <code>::: example</code> ... <code>:::</code> for a box. Add <code>[pagebreak]</code> for a new page, <code>[toc]</code> for contents, <code>[eq] ... [/eq]</code> for math, and <code>Q1. ... (A) ... [ans] B</code> for MCQs. लिखें और preview अपने आप अपडेट होगा।
+      &nbsp; <a href="#" id="openHelp">Learn more →</a>
+    </div>
+  </div>
+
+  <div class="issues" id="issues" hidden>
+    <h3>⚙ Diagnostics & suggestions</h3>
+    <div id="issuesList"></div>
+  </div>
+</main>
+
+<div class="help" id="help" role="dialog" aria-modal="true" aria-label="Formatting help">
+  <div class="help-card">
+    <div class="help-head">
+      <div style="font-size:20px">📘</div>
+      <div>
+        <div style="font-weight:800">Formatting guide — Chemistry Notes Studio</div>
+        <div style="font-size:11px;color:#7d9690">Everything is text-first. No WYSIWYG lock-in; your .md/.json is portable forever.</div>
+      </div>
+      <button class="btn small end" id="closeHelp">✕ Close</button>
+    </div>
+    <div class="help-body">
+      <h3>★ Headings & structure</h3>
+      <p><code>★ Coordination Compounds</code> → large topic heading (also <code># Title</code>)<br>
+      <code>► Introduction</code> → subtopic (also <code>## Subtitle</code>)<br>
+      <code>◆ Definition:</code> → bullet, <code>• nested</code> with 2+ spaces indent<br>
+      <code>[toc]</code> inserts table of contents, <code>[pagebreak]</code> forces new page.</p>
+
+      <h3>◆ Boxes & examples</h3>
+      <p><code>::: keypoint याद रखें</code> ... <code>:::</code> → colored key-point box<br>
+      <code>::: example Magnetic moment</code> ... <code>:::</code> → worked example<br>
+      <code>::: remember</code>, <code>::: examtip</code>, <code>::: formula</code> also supported.</p>
+
+      <h3>▦ Tables</h3>
+      <p>Use Markdown pipes:<br><code>| Property | Octahedral |</code><br><code>| --- | --- |</code><br><code>| CN | 6 |</code> — header repeats on each page automatically.</p>
+
+      <h3>ƒ Math & chemistry</h3>
+      <p><code>[eq] \mu_s = \sqrt{n(n+2)} [/eq]</code> → centered equation<br>
+      Inline <code>$ \frac{a}{b} $</code> or <code>$\ce{[Fe(CN)6]^{3-}}$</code> also works<br>
+      Chemistry auto-formats: <code>H2O</code> → H₂O, <code>SO4^2-</code> → SO₄²⁻, <code>-></code> → →, <code>&lt;=&gt;</code> → ⇌<br>
+      Protect verbatim with backticks: <code>`H2O`</code> stays as typed. Highlight with <code>==yellow==</code>, bold <code>**bold**</code>.</p>
+
+      <h3>Q Questions</h3>
+      <p><code>Q1. Which ligand is bidentate?</code><br><code>(A) H2O</code> <code>(B) en</code> <code>(C) NH3</code> <code>(D) Cl-</code><br><code>[ans] B</code> — answers can be hidden, inline, or on a separate page via the “Answers” selector. Supports <code>[q marks=2]</code> prefix.</p>
+
+      <h3>🖼 Images (data URLs)</h3>
+      <p>For diagrams, add a JSON image block with embedded data URL (no external URLs):<br><code>{"blocks":[{"type":"image","src":"data:image/png;base64,...","text":"Caption","width":"70%"}]}</code><br>You can also <b>drag-and-drop an image</b> onto the editor — it will be auto-converted to a data URL and inserted.</p>
+
+      <h3>⚙ Tips</h3>
+      <p>• Write in Hindi/English mix — Devanagari is fully supported.<br>
+      • Use <code>--</code> → – and <code>---</code> → — automatically.<br>
+      • Broken glyphs (e.g., <code>Nଶ</code> instead of N₂) are auto-repaired — check Diagnostics for warnings.<br>
+      • Save/Load stores source + settings as JSON — keep it as your project file.<br>
+      • Two-column layout is best for cheat sheets; question/worksheet themes add separators.</p>
+
+      <p style="margin-top:16px"><button class="btn small primary" id="insertSample">Insert sample snippet</button> <button class="btn small" id="closeHelp2">Got it</button></p>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const source = $('source'), initial = source.value;
+const keys = ['title','institute','subtitle','columns','theme','compact','optionLayout','answerMode','fontSize','watermark'];
+let timer, sequence=0, controller;
+const healthPill = $('healthPill');
+
+// Restore from localStorage
+try{
+  const saved = JSON.parse(localStorage.getItem('chem-studio-autosave')||'null');
+  if(saved && saved.source && saved.source.length>20){ source.value=saved.source; keys.forEach(k=>{ if(saved.settings && k in saved.settings){ const el=$(k); if(el){ if(el.type==='checkbox') el.checked=saved.settings[k]; else el.value=saved.settings[k]; } } }); }
+}catch{}
+
+// Helpers
+function settings(){ return Object.fromEntries(keys.map(k=>{ const el=$(k); return [k, el.type==='checkbox'?el.checked:el.value]; })); }
+function data(){ return {source: source.value, settings: settings()}; }
+function status(t, err=false){ const s=$('status'); s.textContent=t; s.className=err?'error':''; }
+function toast(msg, ms=2800){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), ms); }
+function updateChars(){ $('chars').textContent = source.value.length.toLocaleString('en-IN')+' characters · '+(source.value.split('\n').length)+' lines'; try{ localStorage.setItem('chem-studio-autosave', JSON.stringify(data())); }catch{} }
+
+// Health check
+fetch('/api/health').then(r=>r.json()).then(j=>{ healthPill.textContent='● Ready — '+ (j.weasy||'fallback'); healthPill.style.background='#e6f7ee'; healthPill.style.color='#1b6b3a'; }).catch(()=>{ healthPill.textContent='● Offline — retrying'; healthPill.style.background='#fff4d6'; });
+
+async function refresh(){
+  let seq=++sequence;
+  if(controller) controller.abort();
+  controller=new AbortController();
+  status('Rendering pages…');
+  $('preview').style.opacity='0.6';
+  try{
+    let r=await fetch('/api/preview',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data()),signal:controller.signal});
+    let d=await r.json();
+    if(!r.ok) throw Error(d.error||'Preview failed');
+    if(seq!==sequence) return;
+    const c=$('preview'); c.innerHTML='';
+    if(!d.pages || !d.pages.length){
+      c.innerHTML='<div class="placeholder"><div class="big">∅</div>No pages — add some content</div>';
+    } else {
+      d.pages.forEach((p,i)=>{
+        const wrap=document.createElement('div'); wrap.className='page-wrap';
+        let img=document.createElement('img'); img.src='data:image/png;base64,'+p; img.alt='Page '+(i+1); img.loading='lazy';
+        img.style.zoom = $('zoom').value+'%';
+        wrap.appendChild(img);
+        let num=document.createElement('div'); num.className='page-num'; num.textContent='Page '+(i+1)+(d.truncated && i===19?' — 20 of '+d.count:'');
+        wrap.appendChild(num);
+        c.appendChild(wrap);
+      });
+      if(d.glyphs && d.glyphs.length){
+        toast('⚠ Auto-repaired '+d.glyphs.length+' glyph(s) — please proofread formulas', 3500);
+      }
+    }
+    $('pageInfo').textContent = d.count+' '+(d.count===1?'page':'pages')+' · '+d.blocks+' blocks'+(d.truncated?' · first 20 shown':'');
+    status(d.count+' '+(d.count===1?'page':'pages')+' · '+d.blocks+' content blocks'+(d.truncated?' · preview limited to 20 pages':''));
+    c.style.opacity='1';
+  }catch(e){
+    if(e.name!=='AbortError'){ status('Preview error: '+e.message, true); $('preview').style.opacity='1'; toast('Preview error: '+e.message, 4000); }
+  }
+}
+function schedule(){ clearTimeout(timer); updateChars(); status('Changes pending…'); timer=setTimeout(refresh, 750); }
+
+// Events
+source.addEventListener('input', schedule);
+source.addEventListener('keydown', e=>{
+  if(e.key==='Tab'){ e.preventDefault(); const s=source.selectionStart, ee=source.selectionEnd; document.execCommand('insertText', false, '  '); source.selectionStart=source.selectionEnd=s+2; schedule(); }
+  if((e.ctrlKey||e.metaKey) && e.key==='Enter'){ e.preventDefault(); clearTimeout(timer); refresh(); }
+  if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='s'){ e.preventDefault(); $('save').click(); }
+});
+keys.forEach(k=>{ const el=$(k); if(el) el.addEventListener('change', schedule); if(el && el.tagName==='INPUT') el.addEventListener('input', schedule); });
+$('refresh').onclick=()=>{ clearTimeout(timer); refresh(); };
+$('sample').onclick=()=>{ if(confirm('Replace editor with sample content?')){ source.value=initial; schedule(); toast('Sample restored'); }};
+$('clear').onclick=()=>{ if(confirm('Clear all content?')){ source.value=''; schedule(); }};
+$('zoom').oninput=e=>{ document.querySelectorAll('#preview img').forEach(img=>img.style.zoom=e.target.value+'%'); };
+$('zoomIn').onclick=()=>{ let z=$('zoom'); z.value=Math.min(140, parseInt(z.value)+10); z.dispatchEvent(new Event('input')); };
+$('zoomOut').onclick=()=>{ let z=$('zoom'); z.value=Math.max(60, parseInt(z.value)-10); z.dispatchEvent(new Event('input')); };
+document.querySelectorAll('[data-insert]').forEach(b=>b.onclick=()=>{
+  source.focus();
+  const txt=b.dataset.insert;
+  const start=source.selectionStart, end=source.selectionEnd;
+  document.execCommand('insertText', false, txt);
+  // place cursor inside if contains placeholder
+  if(txt.includes('\n:::\n')){ source.selectionStart=start+txt.indexOf('\n')+1; source.selectionEnd=source.selectionStart; }
+  schedule();
+});
+$('undo').onclick=()=>{ source.focus(); document.execCommand('undo'); schedule(); };
+$('redo').onclick=()=>{ source.focus(); document.execCommand('redo'); schedule(); };
+
+// Save / load
+function download(blob,name){ let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 1200); }
+$('save').onclick=()=>{ download(new Blob([JSON.stringify(data(),null,2)],{type:'application/json'}), (settings().title||'chemistry-project').replace(/\s+/g,'-').toLowerCase()+'-project.json'); toast('Project saved'); };
+$('load').onclick=()=>$('file').click();
+$('file').onchange=async e=>{
+  let f=e.target.files[0]; if(!f) return;
+  let t=await f.text();
+  try{
+    let p=JSON.parse(t);
+    if(typeof p.source==='string'){ source.value=p.source; keys.forEach(k=>{ if(p.settings && k in p.settings){ const el=$(k); if(el){ if(el.type==='checkbox') el.checked=p.settings[k]; else el.value=p.settings[k]; } } }); toast('Project loaded: '+f.name); }
+    else { source.value=t; toast('Loaded as text: '+f.name); }
+  }catch{ source.value=t; toast('Loaded as text'); }
+  e.target.value=''; schedule();
+};
+
+// Export
+document.querySelectorAll('[data-export]').forEach(b=>b.onclick=async()=>{
+  let kind=b.dataset.export; b.disabled=true; status('Preparing '+kind.toUpperCase()+'…');
+  try{
+    let r=await fetch('/api/export/'+kind,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data())});
+    if(!r.ok){ let d=await r.json().catch(()=>({error:r.statusText})); throw Error(d.error||'Export failed'); }
+    download(await r.blob(), (settings().title||'chemistry-notes').replace(/\s+/g,'-').toLowerCase()+'.'+kind);
+    status(kind.toUpperCase()+' downloaded ✓'); toast(kind.toUpperCase()+' ready');
+  }catch(e){ status(e.message, true); toast('Export error: '+e.message, 4000); }
+  finally{ b.disabled=false; }
+});
+
+// Diagnostics
+$('check').onclick=async()=>{
+  $('issues').hidden=false;
+  $('issuesList').innerHTML='<div class="issue">Checking…</div>';
+  try{
+    let r=await fetch('/api/validate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data())});
+    let d=await r.json();
+    if(!r.ok) throw Error(d.error);
+    if(!d.issues.length){ $('issuesList').innerHTML='<div class="issue"><span class="badge ok">OK</span><div>✓ No issues found — your document looks great! Blocks: '+d.blocks+', headings: '+d.headings+'</div></div>'; }
+    else { $('issuesList').innerHTML=d.issues.map(it=>`<div class="issue"><span class="badge ${it.level==='warn'?'warn':'info'}">${it.level.toUpperCase()}</span><div>${it.msg}</div></div>`).join(''); }
+    // also glyph scan
+    let r2=await fetch('/api/scan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({source:source.value})});
+    let g=await r2.json();
+    if(g.glyphs && g.glyphs.length){
+      $('issuesList').innerHTML+='<div class="issue"><span class="badge warn">GLYPH</span><div>Found suspicious glyphs: '+g.glyphs.map(x=>x.char+' ('+x.code+'×'+x.count+')').join(', ')+'</div></div>';
+    }
+  }catch(e){ $('issuesList').innerHTML='<div class="issue"><span class="badge warn">ERROR</span><div>'+e.message+'</div></div>'; }
+};
+$('diagLink').onclick=e=>{ e.preventDefault(); $('check').click(); document.getElementById('issues').scrollIntoView({behavior:'smooth'}); };
+
+// PDF import
+$('importPdfBtn').onclick=()=>$('pdfFile').click();
+$('pdfFile').onchange=async e=>{
+  const f=e.target.files[0]; if(!f) return;
+  status('Importing PDF…');
+  const fd=new FormData(); fd.append('file', f);
+  try{
+    let r=await fetch('/api/import-pdf',{method:'POST',body:fd});
+    let d=await r.json();
+    if(!r.ok) throw Error(d.error);
+    if(confirm('Extracted '+d.pages+' pages. Insert extracted text into editor? (It will be appended)')){
+      source.value += '\n\n★ Imported from '+f.name+'\n' + d.text.slice(0,50000);
+      schedule();
+      toast('PDF text imported — please reformat with ★/►/◆');
+    }
+  }catch(err){ toast('Import failed: '+err.message, 4000); status('Import error: '+err.message, true); }
+  e.target.value='';
+};
+
+// Drag & drop
+const drop=$('drop');
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev, e=>{ e.preventDefault(); drop.classList.add('drag'); }));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev, e=>{ e.preventDefault(); drop.classList.remove('drag'); }));
+drop.addEventListener('drop', async e=>{
+  const files=e.dataTransfer.files;
+  if(!files.length) return;
+  const f=files[0];
+  if(f.type==='application/pdf'){
+    $('pdfFile').files=files; $('pdfFile').dispatchEvent(new Event('change'));
+    return;
+  }
+  if(f.type.startsWith('image/')){
+    if(f.size>2*1024*1024){ toast('Image too large (max 2 MB for data URL)', 4000); return; }
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      const dataUrl=ev.target.result;
+      // Insert as JSON image block example
+      const snippet=`\n[img src="${dataUrl}" width="70%"]${f.name}[/img]\n`;
+      source.focus(); document.execCommand('insertText', false, snippet); schedule(); toast('Image embedded as data URL');
+    };
+    reader.readAsDataURL(f);
+  } else {
+    toast('Only images and PDFs can be dropped here');
+  }
+});
+// Also allow dropping onto textarea
+source.addEventListener('dragover', e=>e.preventDefault());
+source.addEventListener('drop', e=>{
+  e.preventDefault();
+  const files=e.dataTransfer.files;
+  if(files.length){ drop.dispatchEvent(new DragEvent('drop', {dataTransfer:e.dataTransfer})); }
+});
+
+// Help modal
+const help=$('help');
+function openHelp(){ help.classList.add('open'); }
+function closeHelp(){ help.classList.remove('open'); }
+$('helpBtn').onclick=openHelp;
+$('openHelp').onclick=e=>{ e.preventDefault(); openHelp(); };
+$('closeHelp').onclick=closeHelp;
+$('closeHelp2').onclick=closeHelp;
+help.addEventListener('click', e=>{ if(e.target===help) closeHelp(); });
+$('insertSample').onclick=()=>{
+  source.value += "\n\n★ New Topic\n► Subtopic example\n◆ **Important:** This is a sample point with H2O and [Fe(CN)6]3-.\n::: keypoint Remember\nAlways proofread chemical formulas!\n:::\n";
+  schedule(); closeHelp(); toast('Snippet inserted');
+};
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeHelp(); if(e.key==='?' && (e.ctrlKey||e.metaKey)) { e.preventDefault(); openHelp(); } });
+
+// Print
+$('printBtn').onclick=()=>{ const w=window.open('', '_blank'); if(!w){ toast('Popup blocked — allow popups to print'); return; } fetch('/api/preview',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data())}).then(()=>{}); toast('Use Export PDF → Print for best quality. Opening print dialog…'); setTimeout(()=>window.print(), 600); };
+
+// Init
+updateChars();
+schedule();
+</script>
+</body>
+</html>
